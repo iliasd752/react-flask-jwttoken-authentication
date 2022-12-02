@@ -34,6 +34,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ token: null});
 			},
 
+			signup: async (email, password) => {
+				const options = {
+					method: 'POST',
+					headers: {
+						"Content-type": "application/json"
+					},
+					body: JSON.stringify({
+						"email": email,
+						"password": password
+					})
+				}
+
+				try{
+					const resp = await fetch('https://3001-4geeksacade-reactflaskh-m8j2u82fhut.ws-eu77.gitpod.io/api/signup', options)
+					if(resp.status === 200) {
+					const data = await resp.json()
+					alert("Registration succesful you can login now")
+					window.location.href = "/login"
+					
+					return true;
+				
+				}
+				}
+				catch(error) {
+					console.error("There has been an error signing up")
+				}
+			},
+
 			login: async (email, password) => {
 				const options = {
 					method: 'POST',
@@ -45,6 +73,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"password": password
 					})
 				}
+				
 
 				try{
 					const resp = await fetch('https://3001-4geeksacade-reactflaskh-m8j2u82fhut.ws-eu77.gitpod.io/api/token', options)
@@ -76,7 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				try{
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello", options)
+					const resp = await fetch('https://3001-4geeksacade-reactflaskh-m8j2u82fhut.ws-eu77.gitpod.io/api/hello', options)
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
